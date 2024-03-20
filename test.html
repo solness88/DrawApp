@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1 style="display:flex; justify-content:center">素材情報作成くん</h1>
+
+    <div style="display:flex; justify-content: space-evenly;">
+        <section>
+
+            <!-- 編集素材のインターネット配信 -->
+            <div>
+                <form>
+                    <fieldset>
+                        <legend>編集素材のインターネット配信</legend>
+                        <div>
+                            <input type="radio" id="internetAllOK" name="internet" value="※全編インターネットＯＫ" />
+                            <label for="internetAllOK">全編インターネットＯＫ</label>
+
+                            <input type="radio" id="internetAllNG" name="internet" value="※全編インターネットＮＧ" />
+                            <label for="internetAllNG">全編インターネットＮＧ</label>
+
+                            <input type="radio" id="partlyInternetNG" name="internet" value="※一部インターネットＮＧ" />
+                            <label for="partlyInternetNG">一部インターネットＮＧ</label>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <!-- fill in details -->
+            <div>
+                <form>
+                    <fieldset>
+                        <legend>使用素材</legend>
+
+                        <!-- select submit date -->
+                        <div style="display:flex;margin: 0 0 20px 0">
+                            <label for="date">入稿日</label>
+                            <input type="date"></input>
+                        </div>
+
+                        <!-- select where to submit -->
+                        <div style="display: flex; margin: 0 0 20px 0">
+                            <div style="display:flex; margin:0 30px 0 0;">
+                                <p style="margin: 0 5px 0 0;">入稿先</p>
+                                <select id="submissioDestination" name="choice">
+                                    <option value="first" selected>国際</option>
+                                    <option value="second">政治</option>
+                                    <option value="third">経済</option>
+                                    <option value="third">社会</option>
+                                    <option value="third">ＮＮ</option>
+                                </select>
+                            </div>
+
+                            <!-- 入稿番号の選択 JavaScriptのforループで300個作成 -->
+                            <div style="display:flex;">
+                                <p style="margin: 0 5px 0 0;">入稿番号</p>
+                                <select id="submissioNum" name="choice" class="selectChoice"></select>
+                            </div>
+                        </div>
+
+                        <!-- 版権 -->
+                        <div style="display: flex; margin: 0 0 20px 0">
+                            <div style="display:flex; margin:0 30px 0 0;" id="copyRight">
+                                <label for="date">版権</label>
+                                <select name="choice">
+                                    <option value="none" selected></option>
+                                    <option value="RTV" id="RTV">ロイター素材</option>
+                                    <option value="AP">ＡＰ素材</option>
+                                    <option value="RTV3rd" id="RTV3rdParty">ロイター第三者素材</option>
+                                    <option value="AP3rd" id="AP3rdParty">ＡＰ第三者素材</option>
+                                </select>
+                            </div>
+
+                            <!-- 第三者素材の入力・選択 -->
+                            <div style="display: none;" id="thirdPartySelection">
+                                <label for="date">第三者素材を入力</label>
+                                <select name="choice">
+                                    <option value="first" selected></option>
+                                    <option value="second">BBC</option>
+                                    <option value="third">CNN</option>
+                                    <option value="third">TV GLOBO</option>
+                                    <option value="third">CCTV</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="internetAllOK" name="internet" value="クレジット不要"
+                                style="margin:0 0 20px 0;" />
+                            <label for="internetAllOK" style="margin:0 0 20px 0;">クレジット不要</label>
+
+                            <input type="radio" id="internetAllNG" name="internet" value="※要クレジット"
+                                style="margin:0 0 20px 0;" />
+                            <label for="internetAllNG" style="margin:0 0 20px 0;">要クレジット</label>
+                        </div>
+
+                        <div style="display:flex;">
+                            <label for="date">素材の配信日</label>
+                            <input type="date"></input>
+                        </div>
+
+                        <button type="button" id="submitButton">送信</button>
+
+                    </fieldset>
+                </form>
+            </div>
+
+        </section>
+
+        <section id="displayArea" style="width:600px; background-color:rgb(235, 207, 52, 0.5);">
+            <div>【素材情報】</div>
+            <div id="sozaiArea"></div>
+        </section>
+
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var sozai = document.getElementById('sozaiArea');
+            var radioButtons = document.querySelectorAll('input[type="radio"][name="internet"]');
+
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener('change', function () {
+                    if (this.checked) {
+                        sozai.innerText = this.value;
+                    };
+                });
+            });
+
+
+            var selectElement = document.querySelector(".selectChoice");
+            console.log(selectElement)
+            for (var i = 0; i <= 300; i++) {
+                var optionElement = document.createElement('option');
+                optionElement.value = i.toString();
+                optionElement.textContent = i.toString();
+                selectElement.appendChild(optionElement);
+            };
+
+            // ロイター・AP第三者素材を選択した場合に第三者素材の項目を表示
+            var select = document.querySelector("#copyRight")
+            var selected = document.querySelectorAll("#copyRight option")
+            var thirdParty = document.querySelector("#thirdPartySelection")
+            var RTV = document.querySelector("#RTV")
+
+            select.addEventListener("change", function (e) {
+                if (e.target.value == "RTV3rd" || e.target.value == "AP3rd") {
+                    thirdParty.style.display = "flex";
+                } else {
+                    thirdParty.style.display = "none";
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var sozaiArea = document.getElementById('sozaiArea');
+                var submissionDestination = document.getElementById('submissionDestination');
+                var submissionNum = document.getElementById('submissioNum')
+                var selectChoice = document.querySelector('.selectChoice');
+
+                var copyRight = document.getElementById('copyRight');
+                var thirdPartySelection = document.getElementById('thirdPartySelection');
+                var deliveryDate = document.getElementById('deliveryDate');
+                var submitButton = document.getElementById('submitButton');
+
+                submitButton.addEventListener('click', function () {
+                    var submissionDestinationValue = submissionDestination.value;
+                    var selectChoiceValue = selectChoice.value;
+                    var copyRightValue = copyRight.value;
+                    var thirdPartySelectionValue = thirdPartySelection.value;
+                    var deliveryDateValue = deliveryDate.value;
+
+                    displayArea.innerHTML = `
+                <p>入稿先: ${submissionDestinationValue}</p>
+                <p>入稿番号: ${selectChoiceValue}</p>
+                <p>版権: ${copyRightValue}</p>
+                <p>第三者素材: ${thirdPartySelectionValue}</p>
+                <p>入稿日: ${deliveryDateValue}</p>
+            `;
+                });
+            });
+
+            var selectElement = document.querySelector('.selectChoice');
+            for (var i = 0; i <= 300; i++) {
+                var optionElement = document.createElement('option');
+                optionElement.value = i.toString();
+                optionElement.textContent = i.toString();
+                selectElement.appendChild(optionElement);
+            };
+
+            // ロイター・AP第三者素材を選択した場合に第三者素材の項目を表示
+            var select = document.querySelector("#copyRight")
+            var selected = document.querySelectorAll("#copyRight option")
+            var thirdParty = document.querySelector("#thirdPartySelection")
+            var RTV = document.querySelector("#RTV")
+
+            select.addEventListener("change", function (e) {
+                if (e.target.value == "RTV3rd" || e.target.value == "AP3rd") {
+                    thirdParty.style.display = "flex";
+                } else {
+                    thirdParty.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

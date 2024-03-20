@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script src="lib/p5.min.js"></script>
+  <script src="lib/p5.dom.js"></script>
+
+  <script src="sketch.js"></script>
+
+  <script src="toolbox.js"></script>
+  <script src="helperFunctions.js"></script>
+  <script src="freehandTool.js"></script>
+  <script src="lineToTool.js"></script>
+  <script src="mirrorDrawTool.js"></script>
+  <script src="sprayCanTool.js"></script>
+  <script src="eraserTool.js"></script>
+  <script src="stampTool.js"></script>
+  <script src="drawShapeTool.js"></script>
+  <script src="uploadImageTool.js"></script>
+  <script src="scissorTool.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="box header">My Drawing App
+
+      <button id="clearButton">Clear</button>
+      <button id="saveImageButton">Save Image</button>
+      <button id="moveUpButton">↑</button>
+      <button id="moveDownButton">↓</button>
+      <button id="moveRightButton">→</button>
+      <button id="moveLeftButton">←</button>
+      <button id="undoButton">Undo</button>
+      <button id="redoButton">Redo</button>
+      <span id="slideBar"></span>
+    </div>
+
+    <div class="box" id="sidebar"></div>
+    <div id="content"></div>
+    <div class="box colourPalette"></div>
+    <div class="box options"></div>
+  </div>
+</body>
+
+</html>
