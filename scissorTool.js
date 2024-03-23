@@ -115,6 +115,7 @@ function ScissorTool() {
             }
         });
     };
+
     this.draw = function () {
 
         //select the clicked image sample
